@@ -1,14 +1,12 @@
-// src/App.vue
 <template>
   <div class="App">
-    Hello World
+    Hello World11111
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
-
   data() {
     return {};
   }

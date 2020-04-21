@@ -3,8 +3,6 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 module.exports = {
-    //打包模式
-    mode:'development',
     entry:{
         //配置入口文件
         main:['@babel/polyfill',path.resolve(__dirname,'../src/main.js')]
@@ -19,36 +17,31 @@ module.exports = {
         //静态文件访问路径
         publicPath:'/'
     },
+    devServer: {
+      hot: true,
+      port: 3000,
+      contentBase: './dist'
+    },
     resolve: {
       alias: {
         vue$: 'vue/dist/vue.runtime.esm.js'
       },
+      extensions: [
+        '.js',
+        '.vue'
+      ]
     },
     module:{
         rules:[
             {
                 test:/\.jsx?$/,
-                exclude:/node_modules/,
-                use:[
-                    {
-                      loader: 'cache-loader'
-                    },
-                    {
-                      loader: 'thread-loader'
-                    },
-                    {
-                        loader:'babel-loader'
-                    }
-                ]
+                loader:'babel-loader'
             },
             {
               test: /\.vue$/,
               use: [
                 {
                   loader: 'cache-loader'
-                },
-                {
-                  loader: 'thread-loader'
                 },
                 {
                   loader: 'vue-loader',
@@ -59,26 +52,6 @@ module.exports = {
                   }
                 }
               ]
-            },
-            {
-                test:/\.less/,
-                use:[
-                    {
-                        loader:'style-loader'
-                    },
-                    {
-                        loader:'css-loader',
-                        options:{
-                            improtLoaders:2
-                        }
-                    },
-                    {
-                        loader:'less-loader'
-                    },
-                    {
-                        loader:'postcss-loader'
-                    }
-                ]
             },
             {
                 test: /\.(jpe?g|png|gif)$/i,
@@ -133,21 +106,13 @@ module.exports = {
               },
         ]
     },
-    devServer:{
-      hot:true,
-      port:3000,
-      contentBase:'./dist'
-    },
     plugins:[
+      
+        new VueLoaderPlugin(),
         new HTMLWebpackPlugin({
             template:path.resolve(__dirname,'../public/index.html')
         }),
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin();
-        new webpack.DefinePlugin({
-          'process.env': {
-            VUE_APP_BASE_URL: JSON.stringify('http://localhost:3000')
-          }
-        })
+        new webpack.HotModuleReplacementPlugin()
     ]
 }
