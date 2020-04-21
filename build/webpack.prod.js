@@ -8,6 +8,7 @@ const OptimizeCssnanoPlugin = require('@intervolga/optimize-cssnano-plugin'); //
 // const CleanWebpackPlugin = require('clean-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');//用于删除上次构建的文件
 const CopyWebpackPlugin = require('copy-webpack-plugin');//用户拷贝静态资源
+const bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 module.exports = marge(webpackConfig,{
     mode:'production',
     devtool:'#source-map',
@@ -82,6 +83,9 @@ module.exports = marge(webpackConfig,{
               to: path.resolve(__dirname, '../dist')
             }
           ]),
-          new CleanWebpackPlugin()
+          new CleanWebpackPlugin(),
+          new bundleAnalyzerPlugin({
+              analyzerMode:'static'
+          })
     ]
 })
