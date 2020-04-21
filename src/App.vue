@@ -1,28 +1,38 @@
+// App.vue
 <template>
   <div class="App">
-    Hello World11111
-    <div class="review">
-      <router-view></router-view>
+    <div>
+      <router-link to="/home">go Home</router-link>
+      <router-link to="/about">go About</router-link>
     </div>
-    <div class="checkbtn">
-      <router-link to="/about">关于</router-link>
-      <br>
-      <router-link to="/home">我的</router-link>
+    <div>
+      <p>{{getCounter}}</p>
+      <button @click="add">add</button>
+    </div>
+    <div>
+      <router-view></router-view>
     </div>
   </div>
 </template>
-
 <script>
+import { mapActions, mapGetters,mapMutations } from 'vuex'
 export default {
   name: 'App',
   data() {
     return {};
+  },
+  computed: {
+    ...mapGetters(['getCounter'])
+  },
+  methods: {
+    ...mapMutations(['add'])
   }
 };
 </script>
-
 <style lang="less" scoped>
 .App {
+  text-align: center;
   color: skyblue;
+  font-size: 28px;
 }
 </style>

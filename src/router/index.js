@@ -8,11 +8,11 @@ export default new vueRouter({
     routes:[
         {
             path:'/home',
-            component:Home
+            component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue')
         },
         {
             path:'/about',
-            component:About
+            component: () => import(/* webpackChunkName: "Home" */ '../views/About.vue')
         },
         {
             path: '*',

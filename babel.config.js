@@ -6,5 +6,9 @@ module.exports = {
         //     "useBuiltIns":"usage",
         //     "corejs":3
         // }
+    ],
+    plugins: [
+        // 添加这个
+       '@babel/plugin-syntax-dynamic-import'
     ]
 }
