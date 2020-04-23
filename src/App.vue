@@ -1,7 +1,7 @@
-// App.vue
 <template>
   <div class="App">
     <div>
+      1111
       <router-link to="/home">go Home</router-link>
       <router-link to="/about">go About</router-link>
     </div>

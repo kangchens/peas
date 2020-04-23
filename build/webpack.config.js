@@ -5,7 +5,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 module.exports = {
     entry:{
         //配置入口文件
-        main:['@babel/polyfill',path.resolve(__dirname,'../src/main.js')]
+        main:['@babel/polyfill',path.resolve(__dirname,'../src/main.ts')]
     },
     output:{
         //配置出口文件
@@ -20,7 +20,8 @@ module.exports = {
     devServer: {
       hot: true,
       port: 3000,
-      contentBase: './dist'
+      contentBase: path.join(__dirname, "../public"),
+      open:true
     },
     resolve: {
       alias: {
@@ -28,7 +29,8 @@ module.exports = {
       },
       extensions: [
         '.js',
-        '.vue'
+        '.vue',
+        '.ts'
       ]
     },
     module:{
@@ -36,6 +38,11 @@ module.exports = {
             {
                 test:/\.jsx?$/,
                 loader:'babel-loader'
+            },
+            {
+              test:/\.tsx?$/,
+              use:'ts-loader',
+              exclude: /node_modules/
             },
             {
               test: /\.vue$/,

@@ -1,0 +1,33 @@
+
+// 导入vue模块包会报错，需要将module配置成commonejs或者esnext，同时include里面要包含types包里的解析
+{
+  "include": [
+    "src/**/*",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "./types/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "module": "esnext",
+    "target": "es5",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "es2015.promise",
+      "es2017.object", 
+      "es2016.array.include" 
+    ],
+    "sourceMap": true,
+    "pretty": true
+  }
+}
