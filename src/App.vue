@@ -1,15 +1,6 @@
 <template>
   <div class="App">
     <div>
-      1111
-      <router-link to="/home">go Home</router-link>
-      <router-link to="/about">go About</router-link>
-    </div>
-    <div>
-      <p>{{getCounter}}</p>
-      <button @click="add">add</button>
-    </div>
-    <div>
       <router-view></router-view>
     </div>
   </div>
@@ -31,6 +22,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .App {
+  width: 100vw;
+  height: 100vh;
   text-align: center;
   color: skyblue;
   font-size: 28px;
