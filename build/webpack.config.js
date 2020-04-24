@@ -21,7 +21,7 @@ module.exports = {
       hot: true,
       port: 3000,
       contentBase: path.join(__dirname, "../public"),
-      open:true
+      // open:true
     },
     resolve: {
       alias: {
@@ -39,10 +39,24 @@ module.exports = {
                 test:/\.jsx?$/,
                 loader:'babel-loader'
             },
+            // {
+            //   test:/\.tsx?$/,
+            //   use:'ts-loader',
+            //   exclude: /node_modules/
+            // },
             {
-              test:/\.tsx?$/,
-              use:'ts-loader',
-              exclude: /node_modules/
+              test: /\.tsx?$/,
+              exclude: /node_modules/,
+              use: [
+                "babel-loader",
+                {
+                  loader: "ts-loader",
+                  options: { appendTsxSuffixTo: [/\.vue$/] }
+                },
+                {
+                  loader: 'tslint-loader'
+                }
+              ]
             },
             {
               test: /\.vue$/,
@@ -57,6 +71,17 @@ module.exports = {
                       preserveWhitespace: false
                     },
                   }
+                }
+              ]
+            },
+            {
+              test:/\.css$/,
+              use:[
+                {
+                  loader:'style-loader'
+                },
+                {
+                  loader:'css-loader'
                 }
               ]
             },

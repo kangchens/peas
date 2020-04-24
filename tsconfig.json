@@ -1,5 +1,4 @@
 
-// 导入vue模块包会报错，需要将module配置成commonejs或者esnext，同时include里面要包含types包里的解析
 {
   "include": [
     "src/**/*",

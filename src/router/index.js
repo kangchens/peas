@@ -15,8 +15,12 @@ export default new vueRouter({
             component: () => import(/* webpackChunkName: "Home" */ '../views/About.vue')
         },
         {
+            path:'/login',
+            component: () => import(/* webpackChunkName: "Home" */ '../views/Login.vue')
+        },
+        {
             path: '*',
-            redirect: '/Home'
+            redirect: '/login'
         }
     ]
 })
