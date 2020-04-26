@@ -1,15 +1,23 @@
 <template>
     <aside >
-        
-         <el-submenu v-for="item in list" :key='item.path' :index="item.path" class="item">
+        <template v-for="item in list" >
+         <el-submenu v-if="item.children && item.children !== null" :key='item.path' :index="item.path" class="item">
             <template slot="title" class='items'>
                 <i :class="item.iocn"></i>
                 <span slot="title">{{item.title}}</span>
             </template>
             <el-menu-item-group>
-                <Aside v-if="item.children && item.children !== null" :list='item.children'/>
+                <Aside  :list='item.children'/>
             </el-menu-item-group>
         </el-submenu>
+        <el-menu-item v-else :key='item.path' :index="item.path" class="item">
+            <template slot="title" class='items'>
+                <i :class="item.iocn"></i>
+                <span slot="title">{{item.title}}</span>
+            </template>
+        </el-menu-item>
+        
+        </template>
     </aside>
 </template>
 
@@ -31,7 +39,6 @@
             }
         },
         mounted () {
-            console.log(this.list,"===========>list")
         },
         methods: {
         handleOpen(){
@@ -73,7 +80,6 @@
     padding: 0;
 }
 .items,.item{
-    color: chartreuse;
-    text-align: center;
+    text-align: left;
 }
 </style>

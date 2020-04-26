@@ -4,13 +4,14 @@
         <main class="clearboth">
             <aside class="turn-left">
                 <el-menu
-                default-active="3"
+                default-active="/home/datacenter"
                 class="el-menu-vertical-demo"
                 background-color="#222a3d"
                 text-color="#fff"
                 active-text-color="#ffd04b"
                 mode="vertical"
                 @open="handleOpen"
+                :router="true"
                 @close="handleClose"
                 menu-trigge="click"
                 :collapse="isCollapse"
@@ -19,7 +20,7 @@
                 </el-menu>
             </aside>
             <div class="content turn-left">
-                我是内容
+                <router-view></router-view>
             </div>
         </main>
     </div>
@@ -41,8 +42,8 @@
         constructor(){
             super();
             this.asideList = [{
-                title:"用户中心",
-                path:'/userhome',
+                title:"数据中心",
+                path:'/home/datacenter',
                 iocn:'el-icon-user-solid',
                 index:1,
                 children:null
@@ -112,14 +113,18 @@
     }
     aside{
         background-color: #222a3d;
-        height: 100vh;
-        width: 240px;
+        height: calc(100vh - 50px);
+        width: 200px;
         .el-menu-vertical-demo{
             height: 100%;
             .item{
                 padding: 0;
             }
         }
+    }
+    .content{
+        height: calc(100vh - 50px);
+        width: calc(100% - 200px);
     }
 }
 

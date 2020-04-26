@@ -8,7 +8,18 @@ export default new vueRouter({
     routes:[
         {
             path:'/home',
-            component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue')
+            redirect: '/home/datacenter',
+            component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue'),
+            children:[
+                {
+                    path:'/home/datacenter',
+                    component:() => import('../views/datacenter/datacentert.vue')
+                },
+                {
+                    path:'/home/datacenter',
+                    component:() => import('../views/datacenter/datacentert.vue')
+                }
+            ]
         },
         {
             path:'/about',
