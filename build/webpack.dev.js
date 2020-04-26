@@ -32,8 +32,11 @@ module.exports = merge(webpackConfig,{
     // DefinePlugin可以定义环境变量
     plugins: [
         new webpack.DefinePlugin({
-            'process.env':  {
-                NODE_ENV: JSON.stringify('development')
+            process:  {
+                env:{
+                    NODE_ENV: JSON.stringify('development'),
+                    BASE_URL:"'https://192.168.0.121'"
+                }
             }
         })
     ]

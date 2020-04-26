@@ -17,7 +17,7 @@
                    </el-input>
                </el-form-item>
                <el-form-item>
-                   <el-button type='primary' class="login_btn">登陆</el-button>
+                   <el-button type='primary' class="login_btn" @click="loginHandler">登陆</el-button>
                </el-form-item>
            </el-form>
        </div>
@@ -28,6 +28,7 @@
     import { Component, Prop, Vue } from "vue-property-decorator";  
     import { State, Action, Mutation } from "vuex-class";
     import { loginForms } from '../util/validator';
+    import login_api from '../api/login'
     interface rrevent {
         firname:string,
         secondname:number
@@ -53,6 +54,9 @@
         methods: {}
         private changePage(name:string):void{
             alert(name)
+        }
+        private loginHandler(){
+            login_api.Login()
         }
     }
 </script>

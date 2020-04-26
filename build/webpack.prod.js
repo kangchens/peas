@@ -57,8 +57,11 @@ module.exports = marge(webpackConfig,{
     },
     plugins:[
         new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: 'production'
+            process: {
+                env:{
+                    NODE_ENV: "'production'",
+                    BASE_URL:"'https://192.168.0.01'"
+                }
             }
         }),
         new MiniCssExtractPlugin({
