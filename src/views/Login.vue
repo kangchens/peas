@@ -1,7 +1,7 @@
 <template>
     <div class="warpper" ref="wrap" id='wrapper'>
+        <div class="bg"></div>
        <div class="login">
-           {{messgae}}
            <el-form ref="ruleForm" :rules="loginForms" :model='loginform' class="demo-ruleForm">
                <el-form-item aglin="center">
                    <h5 class="title">用户登录</h5>
@@ -17,7 +17,7 @@
                    </el-input>
                </el-form-item>
                <el-form-item>
-                   <el-button type='primary' class="login_btn" @click="loginHandler">登陆</el-button>
+                   <el-button type='primary' class="login_btn" @click="loginHandler('ruleForm')">登陆</el-button>
                </el-form-item>
            </el-form>
        </div>
@@ -55,8 +55,18 @@
         private changePage(name:string):void{
             alert(name)
         }
-        private loginHandler(){
-            login_api.Login()
+        private loginHandler(formName){
+            console.log(this.$refs.ruleForm['validate'])
+            this.$refs.ruleForm['validate'](valid=>{
+                if(valid){
+                     this.$message({
+                        message: '登陆成功',
+                        type: 'success'
+                    });
+                }else{
+                    return false;
+                }
+            })
         }
     }
 </script>
@@ -65,14 +75,21 @@
 .warpper{
     width: 100%;
     height: 100vh;
-    background: url('/element.JPG');
     position: relative;
+    .bg{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: url('/bg.jpg') no-repeat;
+        background-size: 100% 100%;
+        filter: blur(1px);
+    }
     .login{
         position: absolute;
         width: 500px;
-        left: 100px;
+        left: 50%;
         top: 50%;
-        transform: translate(0,-50%);
+        transform: translate(-50%,-50%);
         background: #fff;
         box-shadow: 0px 0px 10px rgb(196, 192, 192);
         padding: 40px;

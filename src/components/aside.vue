@@ -1,40 +1,79 @@
 <template>
-    <div>
-         <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-        >
-            <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>导航一</span>
+    <aside >
+        
+         <el-submenu v-for="item in list" :key='item.path' :index="item.path" class="item">
+            <template slot="title" class='items'>
+                <i :class="item.iocn"></i>
+                <span slot="title">{{item.title}}</span>
             </template>
-             <el-menu-item-group>
-            <template slot="title">分组一</template>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
+            <el-menu-item-group>
+                <Aside v-if="item.children && item.children !== null" :list='item.children'/>
             </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
-        </el-menu>
-    </div>
+        </el-submenu>
+    </aside>
 </template>
 
 <script>
     import { Component, Prop, Vue } from "vue-property-decorator";  
     import { State, Action, Mutation } from "vuex-class";
-    @Component
-    export default class Aside extends Vue {
+    import Aside from './aside.vue';
+    export default {
+        name:"Aside",
+        props: {
+            list: {
+                type: Array,
+                default: []
+            },
+        },
+        data() {
+            return {
+                isCollapse:false
+            }
+        },
+        mounted () {
+            console.log(this.list,"===========>list")
+        },
+        methods: {
+        handleOpen(){
 
+        },
+        handleClose(){
+
+        }
+        },
     }
+    // @Component({
+    //     components:{
+    //         Aside
+    //     }
+    // })
+    // export default class AsideList extends Vue {
+    //     private isCollapse:boolean = false;
+    //     @Prop() list!:Array<object>
+    //     constructor(){
+    //         super();
+            
+    //     }
+    //     name:'Vnode'
+    //     mounted () {
+    //         console.log('this========>',this)
+    //     }
+    //     methods: {}
+    //     private handleOpen(){
+
+    //     }
+    //     private handleClose(){
+
+    //     }
+    // }
 </script>
 
 <style lang="less" scoped>
-
+.item{
+    padding: 0;
+}
+.items,.item{
+    color: chartreuse;
+    text-align: center;
+}
 </style>
