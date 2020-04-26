@@ -5,5 +5,8 @@ export default {
     },
     Logout(){
         return axios.get("/user/logout",{})
+    },
+    register(){
+        return axios.post('/user/register',{})
     }
 }
