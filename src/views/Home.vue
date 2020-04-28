@@ -6,9 +6,9 @@
                 <el-menu
                 default-active="/home/datacenter"
                 class="el-menu-vertical-demo"
-                background-color="#222a3d"
+                background-color="#409EFF"
                 text-color="#fff"
-                active-text-color="#ffd04b"
+                active-text-color="#fff"
                 mode="vertical"
                 @open="handleOpen"
                 :router="true"
@@ -49,7 +49,7 @@
                 children:null
             },{
                 title:"权限管理",
-                path:'/role',
+                path:'/home/role',
                 iocn:'el-icon-user-solid',
                 index:2,
                 children:null
@@ -99,11 +99,12 @@
 
 <style lang="less" scoped>
 .home{
+    background-color: #409EFF;
     nav{
-        height: 50px;
-        background-color: #222a3d;
-        padding: 0 60px;
-        line-height: 50px;
+        height: 70px;
+        background-color: #409EFF;
+        padding: 0 30px;
+        line-height: 70px;
         h3{
             font-family: cursive;
             font-size: 24px;
@@ -112,8 +113,8 @@
         }
     }
     aside{
-        background-color: #222a3d;
-        height: calc(100vh - 50px);
+        background-color: #409EFF;
+        height: calc(100vh - 70px);
         width: 200px;
         .el-menu-vertical-demo{
             height: 100%;
@@ -123,8 +124,11 @@
         }
     }
     .content{
-        height: calc(100vh - 50px);
+        background-color: #f0f5fc;
+        padding: 20px;
+        height: calc(100vh - 70px);
         width: calc(100% - 200px);
+        border-radius: 5px;
     }
 }
 

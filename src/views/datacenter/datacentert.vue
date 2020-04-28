@@ -70,7 +70,7 @@
             //         data: new Float32Array()
             //     }]
             // };
-            myChart.setOption(option);
+            // myChart.setOption(option);
         }
     }
 </script>

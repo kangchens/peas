@@ -16,6 +16,9 @@
                        <el-button slot="prepend" icon="el-icon-unlock"></el-button>
                    </el-input>
                </el-form-item>
+               <el-form-item align='left' class="forget">
+                   <Checkbox :title.sync="checked"/>
+               </el-form-item>
                <el-form-item>
                    <el-button type='primary' class="login_btn" @click="loginHandler('ruleForm')">登陆</el-button>
                </el-form-item>
@@ -28,15 +31,21 @@
     import { Component, Prop, Vue } from "vue-property-decorator";  
     import { State, Action, Mutation } from "vuex-class";
     import { loginForms } from '../util/validator';
+    import Checkbox from '../components/checkbox.vue';
     import login_api from '../api/login'
     interface rrevent {
         firname:string,
         secondname:number
     }
-    @Component
+    @Component({
+        components:{
+            Checkbox
+        }
+    })
     export default class Logins extends Vue {
         features: string[];
         messgae:string="1111"
+        checked:boolean=false
         public loginForms = loginForms;
         loginform:object = {
             name:"",
@@ -56,6 +65,7 @@
             alert(name)
         }
         private loginHandler(formName){
+            console.log(this.checked)
             console.log(this.$refs.ruleForm['validate'])
             this.$refs.ruleForm['validate'](valid=>{
                 if(valid){

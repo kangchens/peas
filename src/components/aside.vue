@@ -3,7 +3,7 @@
         <template v-for="item in list" >
          <el-submenu v-if="item.children && item.children !== null" :key='item.path' :index="item.path" class="item">
             <template slot="title" class='items'>
-                <i :class="item.iocn"></i>
+                <i :class="item.iocn" style='color:white;'></i>
                 <span slot="title">{{item.title}}</span>
             </template>
             <el-menu-item-group>
@@ -12,7 +12,7 @@
         </el-submenu>
         <el-menu-item v-else :key='item.path' :index="item.path" class="item">
             <template slot="title" class='items'>
-                <i :class="item.iocn"></i>
+                <i :class="item.iocn" style='color:white;'></i>
                 <span slot="title">{{item.title}}</span>
             </template>
         </el-menu-item>

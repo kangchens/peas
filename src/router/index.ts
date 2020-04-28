@@ -18,6 +18,10 @@ export default new vueRouter({
                 {
                     path:'/home/datacenter',
                     component:() => import('../views/datacenter/datacentert.vue')
+                },
+                {
+                    path:'/home/role',
+                    component:() => import('../views/role.vue')
                 }
             ]
         },
