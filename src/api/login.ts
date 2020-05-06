@@ -1,12 +1,6 @@
-import axios from './index';
+import {Get,Post} from './index';
 export default {
-    Login(){
-        return axios.get('/user/login',{})
-    },
-    Logout(){
-        return axios.get("/user/logout",{})
-    },
-    register(){
-        return axios.post('/user/register',{})
+    Login(object:object):Promise<any>{
+        return Post('/user/login',object)
     }
 }

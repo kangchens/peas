@@ -6,15 +6,18 @@
                <el-form-item aglin="center">
                    <h5 class="title">用户登录</h5>
                </el-form-item>
-               <el-form-item prop='name' :rules='loginForms.name'>
-                   <el-input placeholder="请输入用户名" v-model="loginform.name">
-                        <el-button slot="prepend" icon="el-icon-user"></el-button>
+               <el-form-item prop='username' :rules='loginForms.name'>
+                   <el-input placeholder="请输入用户名" v-model="loginform.username">
                     </el-input>
                </el-form-item>
                <el-form-item prop='password' :rules='loginForms.password'>
                    <el-input placeholder="请输入密码" v-model="loginform.password">
-                       <el-button slot="prepend" icon="el-icon-unlock"></el-button>
+                       <el-button slot="append" @click='getcaptcha'>获取验证码</el-button>
                    </el-input>
+               </el-form-item>
+               <el-form-item align='left' class="forget">
+                   <el-input class="captcha" placeholder="请输入验证码" v-model="loginform.captcha"></el-input>
+                   <img class="img" :src="imgurl" alt="">
                </el-form-item>
                <el-form-item align='left' class="forget">
                    <Checkbox :title.sync="checked"/>
@@ -37,6 +40,11 @@
         firname:string,
         secondname:number
     }
+    interface form{
+        username:string,
+        password:string,
+        captcha:string
+    }
     @Component({
         components:{
             Checkbox
@@ -46,10 +54,12 @@
         features: string[];
         messgae:string="1111"
         checked:boolean=false
+        private imgurl:string='/base/captcha'
         public loginForms = loginForms;
-        loginform:object = {
-            name:"",
-            password:null
+        loginform = {
+            username:"",
+            password:null,
+            captcha:''
         }
         constructor() {
             super();
@@ -57,17 +67,23 @@
             
         }
         mounted () {
-            console.log(loginForms)
         }
-        
         methods: {}
         private changePage(name:string):void{
             alert(name)
         }
+        async getcaptcha(){
+        }
         private loginHandler(formName){
+            let that = this
             console.log(this.checked)
             console.log(this.$refs.ruleForm['validate'])
-            this.$refs.ruleForm['validate'](valid=>{
+            this.$refs.ruleForm['validate'](async (valid)=>{
+                let res = await login_api.Login({
+                    username:that.loginform.username,
+                    password:that.loginform.password,
+                    captcha:that.loginform.captcha
+                })
                 if(valid){
                      this.$message({
                         message: '登陆成功',
@@ -113,6 +129,16 @@
             font-size: 24px;
             color: rgb(85, 81, 81);
             letter-spacing: 8px;
+        }
+    }
+    .forget{
+        .captcha{
+            width: 70%;
+            vertical-align: middle;
+        }
+        .img{
+            width: 30%;
+            vertical-align: middle;
         }
     }
 }

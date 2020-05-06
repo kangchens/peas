@@ -21,7 +21,11 @@ module.exports = {
       hot: true,
       port: 3000,
       contentBase: path.join(__dirname, "../public"),
-      open:true
+      open:true,
+      proxy:[{
+        context:['/user','/base'],
+        target:'http://127.0.0.1:7001'
+      }]
     },
     resolve: {
       alias: {

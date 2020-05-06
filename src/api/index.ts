@@ -2,19 +2,14 @@ import Axios from 'axios';
 let axios = Axios.create({
     baseURL:process.env.BASE_URL,
     headers:{
-        'Content-Type':'application/json;charset=UTF-8;multipart/form-data'
+        'Content-Type':'application/json'
     },
     timeout:10000,
     responseType:'json',
     withCredentials:false,
-    transformRequest:[
-        function(data){
-            data = data instanceof FormData ?  data : JSON.stringify(data);
-            return data
-        }
-    ],
     transformResponse:[
         function(data){
+                console.log('data',data)
             if(data){
                 return data
             }else{
@@ -32,11 +27,35 @@ axios.interceptors.response.use(config=>{
 })
 //响应头拦截器
 axios.interceptors.response.use(config=>{
-    if(config.data){
-        alert("请求错误")
-    }
     return config
 },err=>{
     return Promise.reject(err)
 })
-export default axios;
+
+/* GET  */
+export function Get<T>(url, data): Promise<T> {
+    // `params`是要与请求一起发送的URL参数
+    // 必须是纯对象或URLSearchParams对象
+    return axios
+        .get(url, {
+            params: data
+        })
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            throw err
+        })
+}
+
+/* POST */
+export function Post<T>(url, data): Promise<T> {
+    return axios
+        .post(url, data)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            throw err
+        })
+}
