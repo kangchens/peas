@@ -17,7 +17,7 @@
                </el-form-item>
                <el-form-item align='left' class="forget">
                    <el-input class="captcha" placeholder="请输入验证码" v-model="loginform.captcha"></el-input>
-                   <img class="img" :src="imgurl" alt="">
+                   <img class="img" :src="imgurl" alt="图片获取失败">
                </el-form-item>
                <el-form-item align='left' class="forget">
                    <Checkbox :title.sync="checked"/>
@@ -73,25 +73,38 @@
             alert(name)
         }
         async getcaptcha(){
+            this.imgurl = `${this.imgurl}?=${new Date().getTime()}`
         }
         private loginHandler(formName){
             let that = this
             console.log(this.checked)
             console.log(this.$refs.ruleForm['validate'])
             this.$refs.ruleForm['validate'](async (valid)=>{
-                let res = await login_api.Login({
-                    username:that.loginform.username,
-                    password:that.loginform.password,
-                    captcha:that.loginform.captcha
-                })
-                if(valid){
-                     this.$message({
-                        message: '登陆成功',
-                        type: 'success'
-                    });
-                    this.$router.push({path:'/home'})
-                }else{
-                    return false;
+                try {
+                    let res = await login_api.Login({
+                        username:that.loginform.username,
+                        password:that.loginform.password,
+                        captcha:that.loginform.captcha
+                    })
+                    if(valid){
+                        this.$message({
+                            message: '登陆成功',
+                            type: 'success'
+                        });
+                        this.$router.push({path:'/home'})
+                    }else{
+                        return false;
+                    }
+                } catch (error) {
+                    if(valid){
+                        this.$message({
+                            message: '登录失败',
+                            type: 'success'
+                        });
+                        this.$router.push({path:'/home'})
+                    }else{
+                        return false;
+                    }
                 }
             })
         }

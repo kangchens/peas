@@ -16,8 +16,8 @@ export default new vueRouter({
                     component:() => import('../views/datacenter/datacentert.vue')
                 },
                 {
-                    path:'/home/datacenter',
-                    component:() => import('../views/datacenter/datacentert.vue')
+                    path:'/home/tableWay',
+                    component:() => import('../views/datacenter/tableWay.vue')
                 },
                 {
                     path:'/home/role',

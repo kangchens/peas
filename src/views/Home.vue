@@ -42,11 +42,21 @@
         constructor(){
             super();
             this.asideList = [{
-                title:"数据中心",
+                title:"线路配置",
                 path:'/home/datacenter',
                 iocn:'el-icon-user-solid',
                 index:1,
-                children:null
+                children:[{
+                    title:"路线展示",
+                    path:'/home/datacenter',
+                    iocn:'el-icon-user-solid',
+                    index:1-1,
+                },{
+                    title:'线路详情',
+                    path:'/home/tableWay',
+                    iocn:'el-icon-user-solid',
+                    index:1-2,
+                }]
             },{
                 title:"权限管理",
                 path:'/home/role',
@@ -96,7 +106,11 @@
         }
     }
 </script>
-
+<style lang="less">
+    .is-active{
+        background-color: rgb(22, 107, 193) !important;
+    }
+</style>
 <style lang="less" scoped>
 .home{
     background-color: #409EFF;
@@ -122,6 +136,7 @@
                 padding: 0;
             }
         }
+        
     }
     .content{
         background-color: #f0f5fc;
