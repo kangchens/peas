@@ -1,7 +1,7 @@
 <template>
     <div class="warpper" ref="wrap" id='wrapper'>
         <div class="bg"></div>
-       <div class="login">
+       <div class="login" v-if="isLogin">
            <el-form ref="ruleForm" :rules="loginForms" :model='loginform' class="demo-ruleForm">
                <el-form-item aglin="center">
                    <h5 class="title">用户登录</h5>
@@ -20,10 +20,46 @@
                    <img class="img" :src="imgurl" alt="图片获取失败">
                </el-form-item>
                <el-form-item align='left' class="forget">
-                   <Checkbox :title.sync="checked"/>
+                   <div class="tip">
+                       <Checkbox :title.sync="checked"/>
+                        <span class="register" @click="switchHandler">注册</span>
+                   </div>
                </el-form-item>
                <el-form-item>
                    <el-button type='primary' class="login_btn" @click="loginHandler('ruleForm')">登陆</el-button>
+               </el-form-item>
+           </el-form>
+       </div>
+       <div class="login" v-else>
+           <el-form ref="registerForm" :rules="loginForms" :model='loginform' class="demo-ruleForm">
+               <el-form-item aglin="center">
+                   <h5 class="title">用户注册</h5>
+               </el-form-item>
+               <el-form-item prop='username' :rules='loginForms.name'>
+                   <el-input placeholder="请输入用户名" v-model="loginform.username">
+                    <el-button slot="prepend" icon="el-icon-user"></el-button>
+                    </el-input>
+               </el-form-item>
+               <el-form-item prop='password' :rules='loginForms.password'>
+                   <el-input placeholder="请输入密码" v-model="loginform.password">
+                   <el-button slot="prepend" icon="el-icon-key"></el-button>
+                   </el-input>
+               </el-form-item>
+               <el-form-item prop='username' :rules='loginForms.name'>
+                   <el-input placeholder="请输入手机号" v-model="loginform.mobile">
+                    <el-button slot="prepend" icon="el-icon-mobile-phone"></el-button>
+                    </el-input>
+               </el-form-item>
+               <el-form-item prop='username' :rules='loginForms.name'>
+                   <el-input placeholder="请输入邮箱" v-model="loginform.email">
+                       <el-button slot="prepend" icon="el-icon-message"></el-button>
+                    </el-input>
+               </el-form-item>
+               <el-form-item align='left' class="forget">
+                   <span class="register" @click="switchHandler">登录</span>
+               </el-form-item>
+               <el-form-item>
+                   <el-button type='primary' class="login_btn" @click="registerHandler('registerForm')">注册</el-button>
                </el-form-item>
            </el-form>
        </div>
@@ -56,10 +92,14 @@
         checked:boolean=false
         private imgurl:string='/base/captcha'
         public loginForms = loginForms;
+        private isLogin = true;
         loginform = {
             username:"",
             password:null,
-            captcha:''
+            captcha:'',
+            mobile:'',
+            email:'',
+            roleId:0
         }
         constructor() {
             super();
@@ -75,36 +115,50 @@
         async getcaptcha(){
             this.imgurl = `${this.imgurl}?=${new Date().getTime()}`
         }
+        switchHandler(){
+            this.loginform = {
+                username:"",
+                password:null,
+                captcha:'',
+                mobile:'',
+                email:'',
+                roleId:0
+            }
+            this.isLogin = !this.isLogin;
+        }
+        async registerHandler(formName){
+            let that = this
+            this.$refs.registerForm['validate'](async (valid)=>{
+                let res = await login_api.register(this.loginform)
+                if(valid){
+                    this.$message({
+                        message: '注册成功',
+                        type: 'success'
+                    });
+                    this.$router.push({path:'/home'})
+                }else{
+                    return false;
+                }
+            })
+        }
         private loginHandler(formName){
             let that = this
             console.log(this.checked)
             console.log(this.$refs.ruleForm['validate'])
             this.$refs.ruleForm['validate'](async (valid)=>{
-                try {
-                    let res = await login_api.Login({
-                        username:that.loginform.username,
-                        password:that.loginform.password,
-                        captcha:that.loginform.captcha
-                    })
-                    if(valid){
-                        this.$message({
-                            message: '登陆成功',
-                            type: 'success'
-                        });
-                        this.$router.push({path:'/home'})
-                    }else{
-                        return false;
-                    }
-                } catch (error) {
-                    if(valid){
-                        this.$message({
-                            message: '登录失败',
-                            type: 'success'
-                        });
-                        this.$router.push({path:'/home'})
-                    }else{
-                        return false;
-                    }
+                let res = await login_api.Login({
+                    username:that.loginform.username,
+                    password:that.loginform.password,
+                    captcha:that.loginform.captcha
+                })
+                if(valid){
+                    this.$message({
+                        message: '登陆成功',
+                        type: 'success'
+                    });
+                    this.$router.push({path:'/home'})
+                }else{
+                    return false;
                 }
             })
         }
@@ -153,6 +207,10 @@
             width: 30%;
             vertical-align: middle;
         }
+    }
+    .tip{
+        display: flex;
+        justify-content: space-between;
     }
 }
 </style>
