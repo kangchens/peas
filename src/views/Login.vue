@@ -124,8 +124,17 @@
                 email:'',
                 roleId:0
             }
+            this.loginform = {
+            username:"陈康",
+            password:'19950127',
+            captcha:'',
+            mobile:'13052927587',
+            email:'1043677586@qq.com',
+            roleId:0
+        }
             this.isLogin = !this.isLogin;
         }
+        //注册用户
         async registerHandler(formName){
             let that = this
             this.$refs.registerForm['validate'](async (valid)=>{
