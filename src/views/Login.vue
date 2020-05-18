@@ -140,11 +140,19 @@
             this.$refs.registerForm['validate'](async (valid)=>{
                 let res = await login_api.register(this.loginform)
                 if(valid){
-                    this.$message({
-                        message: '注册成功',
-                        type: 'success'
-                    });
-                    this.$router.push({path:'/home'})
+                    if(res.code){
+                        this.$message({
+                            message: '注册成功',
+                            type: 'success'
+                        });
+                        this.$router.push({path:'/home'})
+                    }else{
+                        this.$message({
+                            message: '注册失败',
+                            type: 'error'
+                        });
+                    }
+                    
                 }else{
                     return false;
                 }
