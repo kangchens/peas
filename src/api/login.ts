@@ -7,5 +7,8 @@ export default {
     // 注册用户
     register(object:object):Promise<any>{
         return Post('/user/register',object)
+    },
+    getUserList(object:object):Promise<any>{
+        return Get('/user/userlist',object)
     }
 }

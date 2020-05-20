@@ -161,6 +161,9 @@
                     password:that.loginform.password,
                     captcha:that.loginform.captcha
                 })
+                if(res.data.token){
+                    sessionStorage.setItem('token',res.data.token)
+                }
                 await this.setuser(res.data)
                 if(valid){
                     this.$message({

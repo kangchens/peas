@@ -88,6 +88,7 @@
 <script lang='ts'>
     import { Component, Prop, Vue } from "vue-property-decorator";  
     import { State, Action, Mutation } from "vuex-class";
+    import login_api from '../api/login'
     @Component
     export default class Role extends Vue{
         private form:object = {
@@ -111,6 +112,20 @@
                 value:2
             }
         ]
+        mounted () {
+            this.userList();
+        }
+        async userList(){
+            let res = await login_api.getUserList({
+                name:'',
+                id:'',
+                mobile:'',
+                roleId:'',
+                offset:0,
+                limit:10
+            })
+            console.log('res',res)
+        }
     }
 </script>
 

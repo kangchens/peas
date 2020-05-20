@@ -19,7 +19,7 @@ let axios = Axios.create({
     ]
 })
 //请求头拦截器
-axios.interceptors.response.use(config=>{
+axios.interceptors.request.use(config=>{
     sessionStorage.getItem('token') ? config.headers.Authorization = sessionStorage.getItem('token') : "";
     return config
 },err=>{
