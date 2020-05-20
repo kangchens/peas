@@ -12,12 +12,11 @@
                </el-form-item>
                <el-form-item prop='password' :rules='loginForms.password'>
                    <el-input placeholder="请输入密码" v-model="loginform.password">
-                       <el-button slot="append" @click='getcaptcha'>获取验证码</el-button>
                    </el-input>
                </el-form-item>
                <el-form-item align='left' class="forget">
                    <el-input class="captcha" placeholder="请输入验证码" v-model="loginform.captcha"></el-input>
-                   <img class="img" :src="imgurl" alt="图片获取失败">
+                   <img class="img" :src="imgurl" alt="图片获取失败" @click='getcaptcha'>
                </el-form-item>
                <el-form-item align='left' class="forget">
                    <div class="tip">
@@ -87,6 +86,8 @@
         }
     })
     export default class Logins extends Vue {
+        @Action('setuser') setuser;
+        @State(state => state.user) user
         features: string[];
         messgae:string="1111"
         checked:boolean=false
@@ -117,21 +118,13 @@
         }
         switchHandler(){
             this.loginform = {
-                username:"",
-                password:null,
+                username:"chenkang",
+                password:'19950127',
                 captcha:'',
                 mobile:'',
                 email:'',
                 roleId:0
             }
-            this.loginform = {
-            username:"陈康",
-            password:'19950127',
-            captcha:'',
-            mobile:'13052927587',
-            email:'1043677586@qq.com',
-            roleId:0
-        }
             this.isLogin = !this.isLogin;
         }
         //注册用户
@@ -145,7 +138,7 @@
                             message: '注册成功',
                             type: 'success'
                         });
-                        this.$router.push({path:'/home'})
+                         this.isLogin = !this.isLogin;
                     }else{
                         this.$message({
                             message: '注册失败',
@@ -168,6 +161,7 @@
                     password:that.loginform.password,
                     captcha:that.loginform.captcha
                 })
+                await this.setuser(res.data)
                 if(valid){
                     this.$message({
                         message: '登陆成功',
