@@ -5,7 +5,7 @@ let axios = Axios.create({
         'Content-Type':'application/json'
     },
     timeout:5000,
-    responseType:'json',
+    // responseType:'json',
     withCredentials:false,
     transformResponse:[
         function(data){
@@ -38,8 +38,8 @@ export function Get<T>(url, data): Promise<T> {
     // 必须是纯对象或URLSearchParams对象
     return axios
         .get(url, {
-            params: data
-        })
+            params: data,
+        },)
         .then(res => {
             return res.data
         })
