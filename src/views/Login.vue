@@ -161,6 +161,7 @@
                     password:that.loginform.password,
                     captcha:that.loginform.captcha
                 })
+                console.log(res.data,'res')
                 if(res.data.token){
                     sessionStorage.setItem('token',res.data.token)
                 }

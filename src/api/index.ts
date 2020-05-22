@@ -5,7 +5,7 @@ let axios = Axios.create({
         'Content-Type':'application/json'
     },
     timeout:5000,
-    // responseType:'json',
+    responseType:'json',
     withCredentials:false,
     transformResponse:[
         function(data){
