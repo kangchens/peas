@@ -9,11 +9,11 @@
                 <el-form-item label="用户名">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
-                <el-form-item label="角色信息">
-                    <el-input v-model="form.msg"></el-input>
+                <el-form-item label="用户电话">
+                    <el-input v-model="form.mobile"></el-input>
                 </el-form-item>
                 <el-form-item label="角色类型">
-                    <el-select v-model="usertype" placeholder="请选择">
+                    <el-select v-model="form.roleId" placeholder="请选择">
                         <el-option
                         v-for="item in options"
                         :key="item.value"
@@ -25,7 +25,7 @@
             </el-col>
             <el-col :span='24' class="right">
                 <el-form-item>
-                    <el-button type='primary'>搜索</el-button>
+                    <el-button type='primary' @click="seacher">搜索</el-button>
                 </el-form-item>
             </el-col>
         </el-form>
@@ -40,26 +40,26 @@
                 size="medium"
                 align='center'
                 :header-cell-style="{background:'rgba(235,243,239)',color:'#666666'}"
-                :row-class-name="tableRowClassName">
+                row-class-name="tableRowClassName">
                     <el-table-column
-                    prop="date"
+                    prop="id"
                     label="用户ID"
                     align='center'
                     width="180">
                     </el-table-column>
                     <el-table-column
-                    prop="name"
+                    prop="username"
                     label="用户名"
                     align='center'
                     width="180">
                     </el-table-column>
                     <el-table-column
-                    prop="address"
+                    prop="mobile"
                     align='center'
-                    label="用户信息">
+                    label="手机号">
                     </el-table-column>
                     <el-table-column
-                    prop="address"
+                    prop="userRole.roleId"
                     align='center'
                     label="用户角色">
                     </el-table-column>
@@ -82,6 +82,39 @@
             :total="1000">
             </el-pagination>
         </footer>
+        <!-- 修改用户信息 -->
+        <div class="detilBox" v-if="show">
+            <el-form :model="form" label-width="80px">
+                
+                <h5 class='detail_title'>用户详情</h5>
+                <el-form-item label="用户id">
+                    <el-input v-model="detailms.id"></el-input>
+                </el-form-item>
+                <el-form-item label="用户名">
+                    <el-input v-model="detailms.username"></el-input>
+                </el-form-item>
+                <el-form-item label="手机号码">
+                    <el-input v-model="detailms.mobile"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱号码">
+                    <el-input v-model="detailms.email"></el-input>
+                </el-form-item>
+                <el-form-item label="用户角色"  style='text-align: left;'>
+                    <el-select v-model="value" placeholder="请选择">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item class="setoption">
+                    <el-button @click="show = false">取消</el-button>
+                    <el-button type="primary">保存</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
     </div>
 </template>
 
@@ -94,36 +127,44 @@
         private form:object = {
             name:'',
             id:'',
-            msg:'',
-            type:null
+            mobile:'',
+            roleId:'',
+            offset:0,
+            limit:10
         };
+        tableData = []
         private usertype:string=''
+        private show:boolean = false;
+        private value:string=''
+        private detailms:object = {}
         private options:Array<object> = [
             {
                 label:'超级管理员',
-                value:0
-            },
-            {
-                label:'管理员',
                 value:1
             },
             {
-                label:'普通用户',
-                value:2
+                label:'司机',
+                value:0
             }
         ]
         mounted () {
             this.userList();
         }
+        async seacher(){
+            this.userList()
+        }
+        async handleClick(msg){
+            console.log(msg)
+            this.detailms = msg;
+            this.show = true;
+        }
         async userList(){
             
-            let res = await login_api.getUserList({
-                name:'',
-                id:'',
-                mobile:'',
-                roleId:'',
-                offset:0,
-                limit:10
+            let res = await login_api.getUserList(this.form)
+            
+            this.tableData = res.data.rows.map(item=>{
+                item.userRole.roleId = item.userRole.roleId === 0 ? '司机':'管理员'
+                return item
             })
             console.log('res',res)
         }
@@ -134,6 +175,7 @@
 .wrapper{
     width: 100%;
     height: 90%;
+    position: relative;
     .left{
         display: flex;
         justify-content: space-between;
@@ -154,6 +196,29 @@
     .right{
         display: flex;
         justify-content: flex-end;
+    }
+    .detilBox{
+        position: absolute;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+        background-color: #fff;
+        box-shadow: 0px 0px 5px rgb(187, 182, 182);
+        padding: 40px;
+        width: 500px;
+        border-radius: 5px;
+        .detail_title{
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            color: #000;
+        }
+        .setoption{
+            text-align: right;
+            button{
+                margin-left: 40px;
+            }
+        }
     }
 }
 </style>
