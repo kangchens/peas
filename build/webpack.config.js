@@ -23,7 +23,7 @@ module.exports = {
       contentBase: path.join(__dirname, "../public"),
       open:true,
       proxy:[{
-        context:['/user','/base'],
+        context:['/user','/base','/tool'],
         target:'http://127.0.0.1:7001'
       }]
     },

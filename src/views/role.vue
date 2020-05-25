@@ -68,14 +68,15 @@
                     align='center'
                     label="操作">
                     <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                        <el-button type="text" size="small">编辑</el-button>
+                        <el-button type="text" size="small">查看</el-button>
+                        <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
                     </template>
                     </el-table-column>
                 </el-table>
             </template>
         </main>
         <footer>
+            <el-button @click='download'>下载</el-button>
             <el-pagination
             background
             layout="prev, pager, next"
@@ -88,7 +89,7 @@
                 
                 <h5 class='detail_title'>用户详情</h5>
                 <el-form-item label="用户id">
-                    <el-input v-model="detailms.id"></el-input>
+                    <el-input v-model="detailms.id" :disabled="true"></el-input>
                 </el-form-item>
                 <el-form-item label="用户名">
                     <el-input v-model="detailms.username"></el-input>
@@ -111,7 +112,7 @@
                 </el-form-item>
                 <el-form-item class="setoption">
                     <el-button @click="show = false">取消</el-button>
-                    <el-button type="primary">保存</el-button>
+                    <el-button type="primary" @click="changeDetail">保存</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -122,6 +123,7 @@
     import { Component, Prop, Vue } from "vue-property-decorator";  
     import { State, Action, Mutation } from "vuex-class";
     import login_api from '../api/login'
+    import tool_api from '../api/tool'
     @Component
     export default class Role extends Vue{
         private form:object = {
@@ -136,15 +138,19 @@
         private usertype:string=''
         private show:boolean = false;
         private value:string=''
-        private detailms:object = {}
+        private detailms:object = {
+            userRole:{
+                
+            }
+        }
         private options:Array<object> = [
-            {
-                label:'超级管理员',
-                value:1
-            },
             {
                 label:'司机',
                 value:0
+            },
+            {
+                label:'超级管理员',
+                value:1
             }
         ]
         mounted () {
@@ -154,19 +160,31 @@
             this.userList()
         }
         async handleClick(msg){
-            console.log(msg)
-            this.detailms = msg;
+            this.detailms = JSON.parse(JSON.stringify(msg));
+            this.value = this.detailms['userRole']['roleId']
+            console.log(this.value)
             this.show = true;
         }
+        //获取数据列表
         async userList(){
-            
             let res = await login_api.getUserList(this.form)
-            
             this.tableData = res.data.rows.map(item=>{
                 item.userRole.roleId = item.userRole.roleId === 0 ? '司机':'管理员'
                 return item
             })
             console.log('res',res)
+        }
+        //修改用户详细信息
+        async changeDetail(){
+            this.detailms['userRole']['roleId'] = this.value === '司机' ? 0:1
+            let res = await login_api.changeDetail(this.detailms);
+            
+            this.show = !this.show;
+            console.log(res,'res')
+        }
+        //下载文件
+        async download(){
+            let res = await tool_api.downLoad(this.form)
         }
     }
 </script>
@@ -191,7 +209,10 @@
         background-color: #fff;
         display: flex;
         padding: 30px 0;
-        justify-content: flex-end;
+        justify-content: space-between;
+        button{
+            margin-left: 20px;
+        }
     }
     .right{
         display: flex;
