@@ -1,7 +1,7 @@
-import {Get,Post} from './index';
+import {Get,Post,DownLoad} from './index';
 export default {
     //文件下载
     downLoad(object:object):Promise<any>{
-        return Post('/tool/downLoader',object)
+        return DownLoad('/tool/downLoader',object)
     },
 }

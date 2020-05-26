@@ -59,3 +59,13 @@ export function Post<T>(url, data): Promise<T> {
             throw err
         })
 }
+// DOWNLOAD
+export function DownLoad<T>(url,data):Promise<any>{
+    return Axios.post(url,data,{
+        responseType: 'blob'
+    }).then(res=>{
+        return res.data
+    }).catch(err => {
+        throw err
+    })
+}

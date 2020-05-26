@@ -184,7 +184,17 @@
         }
         //下载文件
         async download(){
-            let res = await tool_api.downLoad(this.form)
+            let blob = await tool_api.downLoad(this.form);
+            console.log('res=========>',blob)
+            let url = window.URL.createObjectURL(blob);
+            let link = document.createElement('a');
+            link.setAttribute("download", "下载文件.xls");
+            // link.download = `文件名称.zip`;  
+            // 后端设置的文件名称在res.headers的 "content-disposition": "form-data; name=\"attachment\"; filename=\"20181211191944.zip\"",
+            link.href = url;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     }
 </script>
