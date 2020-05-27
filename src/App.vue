@@ -26,6 +26,6 @@ export default {
   height: 100vh;
   text-align: center;
   color: skyblue;
-  font-size: 28px;
+  font-size: cale( 100vw / 68.5);
 }
 </style>

@@ -64,7 +64,7 @@
                 index:2,
                 children:null
             },{
-                title:"权威设置",
+                title:"客服",
                 path:'/roles',
                 iocn:'el-icon-user-solid',
                 index:3,
@@ -83,17 +83,10 @@
                             }
                         ]
                     },{
-                        title:"产权配比",
-                        path:'/roletype',
+                        title:"问题处理",
+                        path:'/chart',
                         index:3-2,
-                        iocn:'',
-                        children:[
-                            {
-                                title:"协议配置",
-                                path:'/roleset',
-                                iocn:'',
-                            }
-                        ]
+                        iocn:'el-icon-chat-dot-round',
                     }
                 ]
             }]

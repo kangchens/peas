@@ -20,6 +20,10 @@ export default new vueRouter({
                     component:() => import('../views/datacenter/tableWay.vue')
                 },
                 {
+                    path:'/chart',
+                    component: () => import(/* webpackChunkName: "Home" */ '../views/chatting/chart.vue')
+                },
+                {
                     path:'/home/role',
                     component:() => import('../views/role.vue')
                 }
