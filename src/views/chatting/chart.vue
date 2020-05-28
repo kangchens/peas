@@ -46,6 +46,7 @@
 <script lang='ts'>
     import { Component, Prop, Vue } from "vue-property-decorator";  
     import { State, Action, Mutation } from "vuex-class";
+    import socketio from 'socket.io-client'
     import '../../assect/element.JPG'
     @Component
     export default class ChartComponent extends Vue{
@@ -70,6 +71,14 @@
             message:'你在干吗啊',
             id:12837712973
         }]
+        private socket:any;
+        mounted () {
+            this.socket = socketio('http://127.0.0.1:7001');
+            this.socket.on('connect', () => {
+                console.log('connect!');
+                this.socket.emit('chat', 'hello world!');
+            });
+        }
     }
     
 </script>
