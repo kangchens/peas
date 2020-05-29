@@ -59,17 +59,17 @@
             img:'/element.JPG',
             name:'陈康',
             message:'你在干吗啊',
-            id:12837712973
+            id:223213123
         },{
             img:'/element.JPG',
             name:'陈康',
             message:'你在干吗啊',
-            id:12837712973
+            id:12837712342342973
         },{
             img:'/element.JPG',
             name:'陈康',
             message:'你在干吗啊',
-            id:12837712973
+            id:128377435412973
         }]
         private socket:any;
         mounted () {
@@ -77,6 +77,15 @@
             this.socket.on('connect', () => {
                 console.log('connect!');
                 this.socket.emit('chat', 'hello world!');
+            });
+            //接收消息通知
+            this.socket.on('res', msg => {
+            console.log('res from server: %s!', msg);
+            });
+
+            // 接收上线通知
+            this.socket.on('online', msg=>{
+            console.log('online from server: %s!', msg);
             });
         }
     }
