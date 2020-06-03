@@ -2,6 +2,7 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const PORT = process.env.PORT && Number(process.env.PORT)
 module.exports = {
     entry:{
         //配置入口文件
@@ -19,11 +20,11 @@ module.exports = {
     },
     devServer: {
       hot: true,
-      port: 3000,
+      port: 2000 || 3000,
       contentBase: path.join(__dirname, "../public"),
       open:true,
       proxy:[{
-        context:['/user','/base','/tool'],
+        context:['/user','/base','/tool','/chat'],
         target:'http://127.0.0.1:7001'
       }]
     },

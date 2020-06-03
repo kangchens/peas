@@ -3,8 +3,15 @@
         <aside class="turn-left">
             <header class="clearboth">
                 <div class="seacher turn-left">
-                    <input type="text">
-                    <i class="el-icon-search"></i>
+                    <el-autocomplete
+                    class="inline-input"
+                    v-model="state2"
+                    :fetch-suggestions="querySearch"
+                    placeholder="请输入内容"
+                    :trigger-on-focus="false"
+                    @select="handleSelect"
+                    ></el-autocomplete>
+                    <i class="el-icon-search" ></i>
                 </div>
                 <i class="icons el-icon-more"></i>
             </header>
@@ -48,26 +55,31 @@
     import { State, Action, Mutation } from "vuex-class";
     import socketio from 'socket.io-client'
     import '../../assect/element.JPG'
+    import login_api from '../../api/login'
+    import chat_api from '../../api/chat'
     @Component
     export default class ChartComponent extends Vue{
-        private chartlist:Array<object> =[{
-            img:'/element.JPG',
-            name:'陈康',
-            message:'你在干吗啊',
-            id:12837712973
-        },{
-            img:'/element.JPG',
-            name:'陈康',
-            message:'你在干吗啊',
-            id:223213123
-        },{
-            img:'/element.JPG',
-            name:'陈康',
-            message:'你在干吗啊',
-            id:128377435412973
-        }]
+        private chartlist:Array<object> =[]
+        state2 = ''
         private socket:any;
-        mounted () {
+        private seacherList:any
+        async mounted () {
+            let res = await login_api.getUserList({
+                name:'',
+                id:'',
+                mobile:'',
+                roleId:'',
+                offset:0,
+                limit:10000
+            })
+            this.seacherList = res.data.rows.map(item=>{
+                return {
+                    value:item.username,
+                    id:item.id
+                }
+            });
+        }
+        chatInit(){
             this.socket = socketio('http://127.0.0.1:7001');
             this.socket.on('connect', () => {
                 console.log('connect!');
@@ -82,6 +94,23 @@
             this.socket.on('online', msg=>{
             console.log('online from server: %s!', msg);
             });
+        }
+        querySearch(queryString, cb) {
+            var restaurants = this.seacherList;
+            console.log('queryString',queryString)
+            var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+            // 调用 callback 返回建议列表的数据
+            cb(results);
+        }
+        createFilter(queryString) {
+            return (restaurant) => {
+            return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+            };
+        }
+        async handleSelect(item) {
+            console.log(item);
+            let res = await chat_api.selectChat(item);
+            
         }
     }
     
@@ -114,7 +143,7 @@
             }
             .seacher{
                 position: relative;
-                input{
+                .inline-input{
                     width: 200 / @r;
                     height: 30px;
                     padding: 0 20px;
