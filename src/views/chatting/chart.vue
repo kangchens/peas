@@ -59,11 +59,13 @@
     import chat_api from '../../api/chat'
     @Component
     export default class ChartComponent extends Vue{
+        @State(state => state.user) user
         private chartlist:Array<object> =[]
         state2 = ''
         private socket:any;
         private seacherList:any
         async mounted () {
+            console.log('userInfo',this.user)
             let res = await login_api.getUserList({
                 name:'',
                 id:'',
@@ -109,6 +111,7 @@
         }
         async handleSelect(item) {
             console.log(item);
+            item.userId = this.user.id
             let res = await chat_api.selectChat(item);
             
         }

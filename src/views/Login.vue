@@ -166,6 +166,7 @@
                     sessionStorage.setItem('token',res.data.token)
                 }
                 await this.setuser(res.data)
+                console.log(this.user)
                 if(valid){
                     this.$message({
                         message: '登陆成功',

@@ -20,7 +20,7 @@ module.exports = {
     },
     devServer: {
       hot: true,
-      port: 2000 || 3000,
+      port:3000,
       contentBase: path.join(__dirname, "../public"),
       open:true,
       proxy:[{
