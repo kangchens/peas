@@ -12,6 +12,10 @@ export default {
     getUserList(object:object):Promise<any>{
         return Get('/user/userlist',object)
     },
+    //获取用户列表
+    getDetail(object:object):Promise<any>{
+        return Get('/user/getDetail',object)
+    },
     //修改角色信息
     changeDetail(object:object):Promise<any>{
         return Post('/user/changeDetail',object)
