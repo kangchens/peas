@@ -62,7 +62,6 @@
         public nodeinformmations:any = {};
         public Cnodegraph:any = null
         async mounted () {
-            console.log(G6.Global.version);
             this.initDate = {
                 nodes:[
                     {
